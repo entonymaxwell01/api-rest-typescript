@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, RequestHandler, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import * as yup from "yup";
 
@@ -14,14 +14,10 @@ const bodyValidation: yup.ObjectSchema<ICidade> = yup.object({
   pais: yup.string().min(3).required(),
 });
 
-export const create = async (req: Request<{}, {}, ICidade>, res: Response) => {
-  let validatedData: ICidade | undefined = undefined;
-
+export const createBodyValidator: RequestHandler = async (req, res, next) => {
   try {
     await bodyValidation.validate(req.body, { abortEarly: false });
-    res
-      .status(StatusCodes.CREATED)
-      .json({ validatedData, message: "Cidade criada com sucesso" });
+    next();
   } catch (error) {
     const yupError = error as yup.ValidationError;
     const validationErrors: Record<string, string> = {};
@@ -34,4 +30,11 @@ export const create = async (req: Request<{}, {}, ICidade>, res: Response) => {
       errors: validationErrors,
     });
   }
+};
+
+export const create = async (req: Request<{}, {}, ICidade>, res: Response) => {
+  let validatedData: ICidade | undefined = undefined;
+  res
+    .status(StatusCodes.CREATED)
+    .json({ validatedData, message: "Cidade criada com sucesso" });
 };
