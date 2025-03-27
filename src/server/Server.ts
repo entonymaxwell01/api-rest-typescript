@@ -1,3 +1,4 @@
+import "./services/TraducoesYup";
 import express from "express";
 import { router } from "./routes";
 import "dotenv/config";
