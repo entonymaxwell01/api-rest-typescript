@@ -18,17 +18,20 @@ export const create = async (req: Request<{}, {}, ICidade>, res: Response) => {
   let validatedData: ICidade | undefined = undefined;
 
   try {
-    await bodyValidation.validate(req.body);
+    await bodyValidation.validate(req.body, { abortEarly: false });
     res
       .status(StatusCodes.CREATED)
       .json({ validatedData, message: "Cidade criada com sucesso" });
   } catch (error) {
     const yupError = error as yup.ValidationError;
+    const validationErrors: Record<string, string> = {};
+
+    yupError.inner.forEach((error) => {
+      validationErrors[error.path as string] = error.message;
+    });
 
     res.status(StatusCodes.BAD_REQUEST).json({
-      errors: {
-        default: yupError.message,
-      },
+      errors: validationErrors,
     });
   }
 };
