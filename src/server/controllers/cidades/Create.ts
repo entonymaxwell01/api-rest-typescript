@@ -9,20 +9,6 @@ interface ICidade {
   pais: string;
 }
 
-interface iFilter {
-  filter?: string;
-}
-
-const bodyValidation: yup.ObjectSchema<ICidade> = yup.object({
-  nome: yup.string().required().min(3),
-  estado: yup.string().min(3).required(),
-  pais: yup.string().min(3).required(),
-});
-
-const queryValidation: yup.ObjectSchema<iFilter> = yup.object({
-  filter: yup.string().required().min(3),
-});
-
 export const createValidation = validation({
   body: yup.object({
     nome: yup.string().required().min(3),
@@ -31,7 +17,7 @@ export const createValidation = validation({
   }),
 
   query: yup.object({
-    filter: yup.string().required().min(3),
+    filter: yup.string().optional().min(3),
   }),
 });
 
