@@ -1,7 +1,7 @@
 import { create } from "./Create";
-import { createBodyValidator } from "./Create";
+import { createValidation } from "./Create";
 
 export const CidadesController = {
   create,
-  createBodyValidator,
+  createValidation,
 };
