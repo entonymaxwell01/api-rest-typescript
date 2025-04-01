@@ -1,5 +1,9 @@
 node_modules
 
 
+# Build output
+dist
+coverage
+
 #Credenciais
 .env
