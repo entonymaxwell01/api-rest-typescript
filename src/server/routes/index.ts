@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
 
 router.post(
   "/cidades",
-  CidadesController.createBodyValidator,
+  CidadesController.createValidation,
   CidadesController.create
 );
 
